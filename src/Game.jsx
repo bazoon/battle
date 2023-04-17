@@ -117,10 +117,9 @@ const simpleAi = (board, setBoard) => {
   setBoard(b => ({...b}));
 };
 
-
-const probAi = (board, setBoard, ships) => {
+const getInitialEstim = () => {
   const zero = 1;
-  const estim = [
+  return [
     [zero, zero, zero, zero, zero, zero, zero, zero, zero, zero],
     [zero, zero, zero, zero, zero, zero, zero, zero, zero, zero],
     [zero, zero, zero, zero, zero, zero, zero, zero, zero, zero],
@@ -132,7 +131,12 @@ const probAi = (board, setBoard, ships) => {
     [zero, zero, zero, zero, zero, zero, zero, zero, zero, zero],
     [zero, zero, zero, zero, zero, zero, zero, zero, zero, zero],
   ];
+}
 
+
+
+const probAi = (board, setBoard, ships) => {
+  const estim = getInitialEstim();
 
   const getNumberOfWays = (row, col, length) => {
     let ways = 0;
@@ -257,8 +261,6 @@ const probAi = (board, setBoard, ships) => {
           }
 
         } else {
-
-
           if (row > 0) {
             if (!isHit(board[row - 1][col], row - 1, col)) {
               estim[row - 1][col] += 20;
@@ -320,12 +322,10 @@ const probAi = (board, setBoard, ships) => {
     }
   }
 
-  console.log(estim)
-
-  if (Math.random() > 0.75) {
-    simpleAi(board, setBoard);
-    return estim;
-  }
+  // if (Math.random() > 0.75) {
+  //   simpleAi(board, setBoard);
+  //   return estim;
+  // }
 
   const cell = board[maxRow][maxCol];
 
@@ -338,7 +338,7 @@ const probAi = (board, setBoard, ships) => {
 
 const Game = () => {
   const [isPlaying, setIsPlaying] = useState(true);
-  const [estim, setEstim] = useState()
+  const [estim, setEstim] = useState(getInitialEstim())
   const [humanLoose, setHumanLoose] = useState(undefined);
 
   const [humanBoard, setHumanBoard] = useState({
@@ -381,6 +381,8 @@ const Game = () => {
   }
 
   const newGame = () => {
+    setHumanLoose();
+    setEstim(getInitialEstim());
     clear();
     placeRandom(getInitialBoard(), setHumanBoard);
     placeRandom(getInitialBoard(), setAiBoard);
@@ -464,10 +466,10 @@ const Game = () => {
 
     cell.hit(row, col);
     setAiBoard(b => ({...b}))
-    // simpleAi(board, setHumanBoard);
 
     const estim = probAi(board, setHumanBoard, ships);
     setEstim(estim);
+    console.log(estim)
 
     if (isLost(ships)) {
       console.log('human looose');
@@ -537,21 +539,15 @@ const Game = () => {
 
   return (
     <div>
-      <div className="flex justify-end mb-5">
-        <div className="flex justify-center flex-1">
-          {humanLoose === true && <span className="text-2xl text-white">You loose!</span>}
-          {humanLoose === false && <span className="text-2xl text-white">You win!</span>}
-        </div>
-        <button className="bg-white p-10" onClick={_ => newGame(board)}>
-          New game
-        </button>
-        {
-          null && <button className="bg-white p-10" onClick={_ => runSelfGame()}>
-            Auto battle
+      <div className="flex flex-1 mb-10">
+        <div>
+          <button className="bg-white p-5 mr-10" onClick={_ => newGame(board)}>
+            New game
           </button>
-        }
+        </div>
+        {humanLoose === true && <span className="text-2xl text-white">You loose!</span>}
+        {humanLoose === false && <span className="text-2xl text-white">You win!</span>}
       </div>
-
       <div className="flex">
         <Board
           visible

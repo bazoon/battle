@@ -2,7 +2,7 @@ import cn from 'classnames';
 import {cloneBoard} from './Game';
 
 const selectedShipCls = 'border-2 border-solid border-red-600';
-const shipCls = 'bg-green-600 w-[60px] h-[60px]'
+const shipCls = 'bg-[#7FDBFF] w-[60px] h-[60px]'
 
 function rotatePoint(point, center, angle) {
   angle = (angle) * (Math.PI / 180); // Convert to radians
@@ -138,7 +138,7 @@ export class Carrier extends Ship {
   constructor(id) {
     super(5);
     this.id = id;
-    this.cls = 'bg-green-600 w-[60px] h-[60px]';
+    this.cls = shipCls;
   }
 
   make() {
@@ -151,7 +151,7 @@ export class BattleShip extends Ship {
   constructor(id) {
     super(4);
     this.id = id;
-    this.cls = 'bg-yellow-600 w-[60px] h-[60px]';
+    this.cls = shipCls;
   }
 
   make() {
@@ -165,7 +165,7 @@ export class Submarine extends Ship {
   constructor(id) {
     super(3);
     this.id = id;
-    this.cls = 'bg-cyan-600 w-[60px] h-[60px]';
+    this.cls = shipCls;
   }
 
   make() {
@@ -178,7 +178,7 @@ export class Cruiser extends Ship {
   constructor(id) {
     super(3);
     this.id = id;
-    this.cls = 'bg-blue-600 w-[60px] h-[60px]';
+    this.cls = shipCls;
   }
 
   make() {
@@ -190,7 +190,7 @@ export class Destroyer extends Ship {
   constructor(id) {
     super(2);
     this.id = id;
-    this.cls = 'bg-orange-600 w-[60px] h-[60px]';
+    this.cls = shipCls;
   }
 
   make() {
@@ -204,7 +204,7 @@ export class Interceptor extends Ship {
   constructor(id) {
     super(1);
     this.id = id;
-    this.cls = 'bg-cyan-600 w-[60px] h-[60px]';
+    this.cls = shipCls;
   }
 
   make() {
